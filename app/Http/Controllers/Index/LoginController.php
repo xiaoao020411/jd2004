@@ -8,6 +8,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Str;
+use GuzzleHttp\Client;
 class LoginController extends Controller
 {
     //
@@ -139,4 +140,40 @@ class LoginController extends Controller
     //     UserModel::where(['id'=>$id])->update(['is_validated'=>1]);
     //     echo "<br>"."激活成功";
     // }
+    //github第三方登陆
+    public function github_Login(Request $request){
+        $code = $_GET['code'];
+        $token = $this->getAccessToken($code);
+        $git_user = $this->getGithubUserInfo($token);
+    }
+    protected function getAccessToken($code)
+    {
+        $url = 'https://github.com/login/oauth/access_token';
+
+        //post 接口  Guzzle or  curl
+        $client = new Client();
+        $response = $client->request('POST',$url,[
+            'verify'    => false,
+            'form_params'   => [
+                'client_id'         => env('OAUTH_GITHUB_ID'),
+                'client_secret'     => env('OAUTH_GITHUB_SEC'),
+                'code'              => $code
+            ]
+        ]);
+        parse_str($response->getBody(),$str); // 返回字符串 access_token=59a8a45407f1c01126f98b5db256f078e54f6d18&scope=&token_type=bearer
+        return $str['access_token'];
+    }
+    protected function getGithubUserInfo($token)
+    {
+        $url = 'https://api.github.com/user';
+        //GET 请求接口
+        $client = new Client();
+        $response = $client->request('GET',$url,[
+            'verify'    => false,
+            'headers'   => [
+                'Authorization' => "token $token"
+            ]
+        ]);
+        return json_decode($response->getBody(),true);
+    }
 }

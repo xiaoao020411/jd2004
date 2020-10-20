@@ -48,7 +48,9 @@
 								</div>
 								<div class="logined">
                                     <input type="submit" class="sui-btn btn-block btn-xlarge btn-danger" value="登录 ">
-
+								</div><br>
+								<div class="logined">
+									<a href="https://github.com/login/oauth/authorize?client_id=876e59924c8e1b36a095" class="sui-btn btn-block btn-xlarge btn-danger">github登陆</a>
 								</div>
 							</form>
 							<div class="otherlogin">

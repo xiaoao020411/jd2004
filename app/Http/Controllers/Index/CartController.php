@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Model\Goods;
 use App\Model\Cart;
+use GuzzleHttp\Client;
 class CartController extends Controller
 {
     //
@@ -63,11 +64,18 @@ class CartController extends Controller
     }
 
     public function weather(){
-        // $url = 'https://devapi.qweather.com/v7/weather/now?location=101010700&key=8fe30e0a6d5a49928dda4e399d37fd1c&gzip=n';
+        $url = 'https://devapi.qweather.com/v7/weather/now?location=101010700&key=8fe30e0a6d5a49928dda4e399d37fd1c&gzip=n';
         // $json_str = file_get_contents($url);
         // $data = json_decode($json_str,true);
         // echo '<pre>';print_r($data);echo '</pre>';
-        return view('index.weather');
+        // return view('index.weather');
+        $client = new Client();
+        $res = $client->request('GET',$url,['verify'=>false]);
+        $body = $res->getBody();
+        echo $body;
+        $data = json_decode($body,true);
+        print_r($_POST);
     }
 
+    
 }
