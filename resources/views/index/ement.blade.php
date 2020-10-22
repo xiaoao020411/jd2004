@@ -3,107 +3,18 @@
 @section('title','结算页')
 @section('cartadd')
 
-		<!--主内容-->
+        <!--主内容-->
+        <form action="{{url('/order')}}" method="post" class="sui-form form-horizontal">
+        @csrf
 		<div class="checkout py-container">
 			<div class="checkout-tit">
 				<h4 class="tit-txt">填写并核对订单信息</h4>
 			</div>
 			<div class="checkout-steps">
 				<!--收件人信息-->
-				<div class="step-tit">
-					<h5>收件人信息<span><a data-toggle="modal" data-target=".edit" data-keyboard="false" class="newadd">新增收货地址</a></span></h5>
-				</div>
+				
 				<div class="step-cont">
-					<div class="addressInfo">
-						<ul class="addr-detail">
-							<li class="addr-item">
-
-							  <div>
-								<div class="con name selected"><a href="javascript:;" >张默<span title="点击取消选择">&nbsp;</a></div>
-								<div class="con address">张默 北京市海淀区三环内 中关村软件园9号楼 <span>159****3201</span>
-									<span class="base">默认地址</span>
-									<span class="edittext"><a data-toggle="modal" data-target=".edit" data-keyboard="false" >编辑</a>&nbsp;&nbsp;<a href="javascript:;">删除</a></span>
-								</div>
-								<div class="clearfix"></div>
-							  </div>
-							  <div>
-								<div class="con name"><a href="javascript:;">李煜<span title="点击取消选择">&nbsp;</a></div>
-								<div class="con address">李煜 北京市海淀区三环内 中关村软件园8号楼 <span>187****4201</span>
-								<span class="edittext"><a data-toggle="modal" data-target=".edit" data-keyboard="false" >编辑</a>&nbsp;&nbsp;<a href="javascript:;">删除</a></span>
-								</div>
-								<div class="clearfix"></div>
-							  </div>
-
-							  <div>
-								<div class="con name"><a href="javascript:;">王希<span title="点击取消选择">&nbsp;</a></div>
-								<div class="con address">王希 北京市海淀区三环内 中关村软件园6号楼  <span>156****5681</span>
-								<span class="edittext"><a data-toggle="modal" data-target=".edit" data-keyboard="false" >编辑</a>&nbsp;&nbsp;<a href="javascript:;">删除</a></span>
-								</div>
-								<div class="clearfix"></div>
-							  </div>
-							</li>
-
-
-						</ul>
-						<!--添加地址-->
-                          <div  tabindex="-1" role="dialog" data-hasfoot="false" class="sui-modal hide fade edit">
-						  <div class="modal-dialog">
-						    <div class="modal-content">
-						      <div class="modal-header">
-						        <button type="button" data-dismiss="modal" aria-hidden="true" class="sui-close">×</button>
-						        <h4 id="myModalLabel" class="modal-title">添加收货地址</h4>
-						      </div>
-						      <div class="modal-body">
-						      	<form action="" class="sui-form form-horizontal">
-						      		 <div class="control-group">
-									    <label class="control-label">收货人：</label>
-									    <div class="controls">
-									      <input type="text" class="input-medium">
-									    </div>
-									  </div>
-
-									   <div class="control-group">
-									    <label class="control-label">详细地址：</label>
-									    <div class="controls">
-									      <input type="text" class="input-large">
-									    </div>
-									  </div>
-									   <div class="control-group">
-									    <label class="control-label">联系电话：</label>
-									    <div class="controls">
-									      <input type="text" class="input-medium">
-									    </div>
-									  </div>
-									   <div class="control-group">
-									    <label class="control-label">邮箱：</label>
-									    <div class="controls">
-									      <input type="text" class="input-medium">
-									    </div>
-									  </div>
-									   <div class="control-group">
-									    <label class="control-label">地址别名：</label>
-									    <div class="controls">
-									      <input type="text" class="input-medium">
-									    </div>
-									    <div class="othername">
-									    	建议填写常用地址：<a href="#" class="sui-btn btn-default">家里</a>　<a href="#" class="sui-btn btn-default">父母家</a>　<a href="#" class="sui-btn btn-default">公司</a>
-									    </div>
-									  </div>
-
-						      	</form>
-
-
-						      </div>
-						      <div class="modal-footer">
-						        <button type="button" data-ok="modal" class="sui-btn btn-primary btn-large">确定</button>
-						        <button type="button" data-dismiss="modal" class="sui-btn btn-default btn-large">取消</button>
-						      </div>
-						    </div>
-						  </div>
-						</div>
-						 <!--确认地址-->
-					</div>
-					<div class="hr"></div>
+				
 
 				</div>
 				<div class="hr"></div>
@@ -114,7 +25,7 @@
 					</div>
 					<div class="step-cont">
 						<ul class="payType">
-							<li class="selected">微信付款<span title="点击取消选择"></span></li>
+							<li class="selected">支付宝付款<span title="点击取消选择"></span></li>
 							<li>货到付款<span title="点击取消选择"></span></li>
 						</ul>
 					</div>
@@ -124,30 +35,32 @@
 					</div>
 					<div class="step-cont">
 						<ul class="send-detail">
+                            @foreach ($goods as $v)
 							<li>
 
 								<div class="sendGoods">
+                                        <ul class="yui3-g">
+                                            <li class="yui3-u-1-6">
+                                                <span><img src="/upload/{{$v->goods_img}}"/ width="100px" height="100px"></span>
+                                            </li>
+                                            <li class="yui3-u-7-12">
+                                                <div class="desc">{{$v->goods_name}}</div>
+                                                <div class="seven"></div>
+                                            </li>
+                                            <li class="yui3-u-1-12">
+                                                <div class="price">￥{{$v->goods_num * $v->shop_price}}.00</div>
+                                            </li>
+                                            <li class="yui3-u-1-12">
+                                                <div class="num">X{{$v->goods_num}}</div>
+                                            </li>
+                                            <li class="yui3-u-1-12">
+                                                <div class="exit"></div>
+                                            </li>
+                                        </ul>
+                                    </div>
 
-									<ul class="yui3-g">
-										<li class="yui3-u-1-6">
-											<span><img src="/static/img/goods.png"/></span>
-										</li>
-										<li class="yui3-u-7-12">
-											<div class="desc">Apple iPhone 6s (A1700) 64G 玫瑰金色 移动联通电信4G手机硅胶透明防摔软壳 本色系列</div>
-											<div class="seven">7天无理由退货</div>
-										</li>
-										<li class="yui3-u-1-12">
-											<div class="price">￥5399.00</div>
-										</li>
-										<li class="yui3-u-1-12">
-											<div class="num">X1</div>
-										</li>
-										<li class="yui3-u-1-12">
-											<div class="exit">有货</div>
-										</li>
-									</ul>
-								</div>
-							</li>
+                            </li>
+                            @endforeach
 							<li></li>
 							<li></li>
 						</ul>
@@ -192,7 +105,124 @@
 			<div class="fc-receiverInfo">寄送至:北京市海淀区三环内 中关村软件园9号楼 收货人：某某某 159****3201</div>
 		</div>
 		<div class="submit">
-			<a class="sui-btn btn-danger btn-xlarge" href="{{url('pay')}}">提交订单</a>
-		</div>
-	</div>
+            <a class="sui-btn btn-danger btn-xlarge" href="{{url('pay')}}">提交订单</a>
+        </div>
+        </form>
+        <!--添加地址-->
+        <div  tabindex="-1" role="dialog" data-hasfoot="false" class="sui-modal hide fade edit">
+                                <div class="modal-dialog">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <button type="button" data-dismiss="modal" aria-hidden="true" class="sui-close hideclass">×</button>
+                                      <h4 id="myModalLabel" class="modal-title">添加收货地址</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                    <form action="" method="post" class="sui-form form-horizontal">
+                                        @csrf
+                                             <div class="control-group">
+                                              <label class="control-label">收货人：</label>
+                                              <div class="controls">
+                                                <input type="text" name="consignee" class="input-medium">
+                                              </div>
+                                            </div>
+
+                                            
+                                             <div class="control-group">
+                                              <label class="control-label">联系电话：</label>
+                                              <div class="controls">
+                                                <input type="text" name="tel" class="input-medium">
+                                              </div>
+                                            </div>
+                                             <div class="control-group">
+                                              <label class="control-label">邮箱：</label>
+                                              <div class="controls">
+                                                <input type="text" name="email" class="input-medium">
+                                              </div>
+                                            </div>
+                                             <div class="control-group">
+                                              <label class="control-label">地址别名：</label>
+                                              <div class="controls">
+                                                <input type="text" name="address_name" class="input-medium">
+                                              </div>
+                                              <div class="othername">
+                                                  建议填写常用地址：<a href="#" class="sui-btn btn-default">家里</a>　<a href="#" class="sui-btn btn-default">父母家</a>　<a href="#" class="sui-btn btn-default">公司</a>
+                                              </div>
+                                            </div>
+                                            </form>
+
+
+
+                                    </div>
+                                    <div class="modal-footer">
+                                      <button type="button" data-ok="modal" class="sui-btn btn-primary btn-large useradressadd">确定</button>
+                                      <button type="button" data-dismiss="modal" class="sui-btn btn-default btn-large hideclass">取消</button>
+                                    </div>
+                                  </div>
+                                </div>
+
+                              </div>
+
+                               <!--确认地址-->
+          </div>
+    <div class="sui-modal-backdrop fade in" style="background:#000;;display: none;"></div>
+
+    <script type="text/javascript" src="/static/js/plugins/jquery/jquery.min.js"></script>
+    <script>
+        //判断当前用户是否有收货地址  没有弹出收货地址框
+	@if(!count($address))
+	$(function(){
+		$('.sui-modal').addClass('in');
+		$('.sui-modal-backdrop').show();
+		$('.sui-modal').css('margin-top','-186px');
+		$('.sui-modal').show();
+	})
+	@endif
+    //四级联动
+	
+		var obj = $(this);
+		// alert(region_id);
+		$.get('/getsonaddress',{region_id:region_id},function(res){
+			if(res.code=='0'){
+				var address =res.data;
+				var str='<option value="0">请选择==</option>';
+				for(var i=0;i<address.length;i++){
+					str += '<option value="'+address[i].region_id+'">'+address[i].region_name+'</option>';
+				}
+				// alert(str);
+				obj.next().html(str);
+			}
+		},'json')
+	})
+    //点击×或取消弹出框消失
+	$('.hideclass').click(function(){
+		$('.sui-modal').removeClass('in');
+		$('.sui-modal-backdrop').hide();
+		$('.sui-modal').removecss('margin-top','-186px');
+		$('.sui-modal').hide();
+	})
+    //用户添加
+	$(document).on('click','.useradressadd',function(){
+		var consignee = $('input[name="consignee"]').val();
+		var address_name = $('input[name="address"]').val();
+		// alert(address_name);
+        // return;
+		var country = $('select[name="country"]').val();
+		// alert(country);
+		var province = $('select[name="province"]').val();
+		// alert(province);
+		var city = $('select[name="city"]').val();
+		// alert(city);
+		var district = $('select[name="district"]').val();
+		// alert(district);
+		var address = $('input[name="address"]').val();
+		var tel = $('input[name="tel"]').val();
+		var email = $('input[name="email"]').val();
+		var address_name = $('input[name="address_name"]').val();
+		$.get('/useraddressadd',{consignee:consignee,address_name:address_name,country:country,province:province,city:city,district:district,address:address,tel:tel,email:email,address_name:address_name},function(res){
+                alert(res);
+				$('li[class="addr-item"]').html(res);
+		})
+	})
+    </script>
+
     @endsection
