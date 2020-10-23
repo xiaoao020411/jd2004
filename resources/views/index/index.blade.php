@@ -406,17 +406,17 @@
                         </ol>
                         <div class="carousel-inner">
                             <div class="active item">
-                            <a href="http://baidu2.wypxj.com/">
+							<a href="/search">
                                 <img src="/static/img/banner1.jpg"  />
                             </a>
                             </div>
                             <div class="item">
-                            <a href="http://baidu2.wypxj.com/">
+                            <a href="/search">
                             <img src="/static/img/banner2.jpg"  />
                             </a>
                             </div>
                             <div class="item">
-                            <a href="http://baidu2.wypxj.com/">
+                            <a href="/search">
                             <img src="/static/img/banner3.jpg"  />
                             </a>
 

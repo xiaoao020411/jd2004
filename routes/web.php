@@ -31,3 +31,4 @@ Route::get('/ement','Index\EmentController@ement');//地址
 Route::get('/pay','Index\EmentController@pay');//结算
 Route::get('/weather','Index\CartController@weather');//结算
 Route::get('/github_Login','Index\LoginController@github_Login');//github授权登录
+Route::post('/order','Index\OrderController@order');//

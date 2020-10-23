@@ -14,7 +14,35 @@
 				<!--收件人信息-->
 				
 				<div class="step-cont">
-				
+					<div class="addressInfo">
+                        <input type="hidden" name="address_id" value="">
+						<input type="hidden" name="pay_type" value="">
+						<input type="hidden" name="rec_id" value="{{request()->cart_id}}">
+						<ul class="addr-detail">
+							<li class="addr-item">
+
+                                @if($address)
+                                @foreach($address as $v)
+                                <div>
+                                  <div address_id="{{$v['address_id']}}" class="con name choiceuser @if($v['is_default']==1) selected @endif"><a href="javascript:;" >{{$v['consignee']}}<span title="点击取消选择">&nbsp;</a></div>
+                                  <div class="con address">{{$v['consignee']}} {{$v['address']}} {{$v['address_name']}} <span>{{substr_replace($v['tel'],'****',3,4)}}</span>
+                                      @if($v['is_default']==1)
+                                      <span class="base">默认地址</span>
+                                      @endif
+                                      <span class="edittext"><a data-toggle="modal" data-target=".edit" data-keyboard="false" >编辑</a>&nbsp;&nbsp;<a href="javascript:;">删除</a></span>
+                                  </div>
+                                  <div class="clearfix"></div>
+                                </div>
+                               @endforeach
+                              @endif
+
+
+							</li>
+
+
+						</ul>
+
+					<div class="hr"></div>
 
 				</div>
 				<div class="hr"></div>
@@ -25,8 +53,9 @@
 					</div>
 					<div class="step-cont">
 						<ul class="payType">
-							<li class="selected">支付宝付款<span title="点击取消选择"></span></li>
-							<li>货到付款<span title="点击取消选择"></span></li>
+							<li pay_type=1 class="selected">微信付款<span title="点击取消选择"></span></li>
+                                <li pay_type=2 >支付宝<span title="点击取消选择"></span></li>
+                                <li pay_type=3 >货到付款<span title="点击取消选择"></span></li>
 						</ul>
 					</div>
 					<div class="hr"></div>
@@ -105,94 +134,20 @@
 			<div class="fc-receiverInfo">寄送至:北京市海淀区三环内 中关村软件园9号楼 收货人：某某某 159****3201</div>
 		</div>
 		<div class="submit">
-            <a class="sui-btn btn-danger btn-xlarge" href="{{url('pay')}}">提交订单</a>
+            <button class="sui-btn btn-danger btn-xlarge" type="submit">提交订单</button>
         </div>
         </form>
-        <!--添加地址-->
-        <div  tabindex="-1" role="dialog" data-hasfoot="false" class="sui-modal hide fade edit">
-                                <div class="modal-dialog">
-                                  <div class="modal-content">
-                                    <div class="modal-header">
-                                      <button type="button" data-dismiss="modal" aria-hidden="true" class="sui-close hideclass">×</button>
-                                      <h4 id="myModalLabel" class="modal-title">添加收货地址</h4>
-                                    </div>
-                                    <div class="modal-body">
-                                    <form action="" method="post" class="sui-form form-horizontal">
-                                        @csrf
-                                             <div class="control-group">
-                                              <label class="control-label">收货人：</label>
-                                              <div class="controls">
-                                                <input type="text" name="consignee" class="input-medium">
-                                              </div>
-                                            </div>
+		<!--添加地址-->
+		<!--确认地址-->
+	</div>
+        <div class="sui-modal-backdrop fade in" style="background:#000;;display: none;"></div>
 
-                                            
-                                             <div class="control-group">
-                                              <label class="control-label">联系电话：</label>
-                                              <div class="controls">
-                                                <input type="text" name="tel" class="input-medium">
-                                              </div>
-                                            </div>
-                                             <div class="control-group">
-                                              <label class="control-label">邮箱：</label>
-                                              <div class="controls">
-                                                <input type="text" name="email" class="input-medium">
-                                              </div>
-                                            </div>
-                                             <div class="control-group">
-                                              <label class="control-label">地址别名：</label>
-                                              <div class="controls">
-                                                <input type="text" name="address_name" class="input-medium">
-                                              </div>
-                                              <div class="othername">
-                                                  建议填写常用地址：<a href="#" class="sui-btn btn-default">家里</a>　<a href="#" class="sui-btn btn-default">父母家</a>　<a href="#" class="sui-btn btn-default">公司</a>
-                                              </div>
-                                            </div>
-                                            </form>
-
-
-
-                                    </div>
-                                    <div class="modal-footer">
-                                      <button type="button" data-ok="modal" class="sui-btn btn-primary btn-large useradressadd">确定</button>
-                                      <button type="button" data-dismiss="modal" class="sui-btn btn-default btn-large hideclass">取消</button>
-                                    </div>
-                                  </div>
-                                </div>
-
-                              </div>
-
-                               <!--确认地址-->
-          </div>
-    <div class="sui-modal-backdrop fade in" style="background:#000;;display: none;"></div>
-
-    <script type="text/javascript" src="/static/js/plugins/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/jquery.min.js"></script>
     <script>
         //判断当前用户是否有收货地址  没有弹出收货地址框
-	@if(!count($address))
-	$(function(){
-		$('.sui-modal').addClass('in');
-		$('.sui-modal-backdrop').show();
-		$('.sui-modal').css('margin-top','-186px');
-		$('.sui-modal').show();
-	})
-	@endif
+	
     //四级联动
 	
-		var obj = $(this);
-		// alert(region_id);
-		$.get('/getsonaddress',{region_id:region_id},function(res){
-			if(res.code=='0'){
-				var address =res.data;
-				var str='<option value="0">请选择==</option>';
-				for(var i=0;i<address.length;i++){
-					str += '<option value="'+address[i].region_id+'">'+address[i].region_name+'</option>';
-				}
-				// alert(str);
-				obj.next().html(str);
-			}
-		},'json')
-	})
     //点击×或取消弹出框消失
 	$('.hideclass').click(function(){
 		$('.sui-modal').removeClass('in');
@@ -221,6 +176,30 @@
 		$.get('/useraddressadd',{consignee:consignee,address_name:address_name,country:country,province:province,city:city,district:district,address:address,tel:tel,email:email,address_name:address_name},function(res){
                 alert(res);
 				$('li[class="addr-item"]').html(res);
+		})
+	})
+    //页面加载事件
+	$(function(){
+		var address_id = $('.selected').attr('address_id');
+		var pay_type = $('.payType .selected').attr('pay_type');
+		$('input[name="address_id"]').val(address_id);
+		$('input[name="pay_type"]').val(pay_type);
+		//选择收货地址
+		$('.choiceuser').click(function(){
+            //alert(111);
+			var address_id = $(this).attr('address_id');
+			//alert(address_id);
+			$('input[name="address_id"]').val(address_id);
+			$(this).parents('div').siblings().find('div').removeClass("selected");
+			$(this).addClass("selected");
+		})
+		//选择支付方式
+		$('.payType li').click(function(){
+			var pay_type = $(this).attr('pay_type');
+            $(this).siblings('li').removeClass('selected');
+            $(this).addClass("selected");
+			// alert(pay_type);
+			$('input[name="pay_type"]').val(pay_type);
 		})
 	})
     </script>

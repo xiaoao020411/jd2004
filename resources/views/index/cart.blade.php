@@ -78,7 +78,7 @@
 	</div>
 	<!-- 底部栏位 -->
     <!--页面底部-->
-    <script type="text/javascript" src="/static/js/plugins/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/jquery.min.js"></script>
 <script>
     $('.sum-btn').click(function(){
         var cart_id=new Array();
