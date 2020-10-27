@@ -12,4 +12,5 @@ class IndexController extends Controller
         // dd(Redis::lrange('logtime10',0,-1));
         return view('index.index');
     }
+    
 }

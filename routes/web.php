@@ -32,3 +32,5 @@ Route::get('/pay','Index\EmentController@pay');//结算
 Route::get('/weather','Index\CartController@weather');//结算
 Route::get('/github_Login','Index\LoginController@github_Login');//github授权登录
 Route::post('/order','Index\OrderController@order');//
+Route::get('/prize','Index\PrizeController@prize');
+Route::get('/prize/add','Index\PrizeController@add');
